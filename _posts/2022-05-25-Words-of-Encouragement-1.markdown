@@ -14,9 +14,7 @@ comments: false
 
 
 # Welcome to Words of Encouragement #1
-```
 As J&J have been traveling the country, we've received some beautiful responses to the newsletter. I will put these responses on display periodically through these **Words of Encouragement** posts.
-```
 
 ## On May 13th
 ```
