@@ -16,19 +16,19 @@ comments: false
 # Welcome to Words of Encouragement #1
 As J&J have been traveling the country, we've received some beautiful responses to the newsletter. I will put these responses on display periodically through these **Words of Encouragement** posts.
 
-## On May 13th
+## On May 13th,
 ```
 Wonderful J and J. Enjoy beautiful pictures. Reminds me stones of Macchupiccu Cuzco Peru, 
 Grandpa
 ```
 
-## On May 22nd
+## On May 22nd,
 ```
 Beautiful pictures J and J! 
 Grandma and Grandpa
 ```
 
-## On May 24th
+## On May 24th,
 ```
 Hi JJ,
 
@@ -39,6 +39,18 @@ They are awesome people!!! Love these guys 💚
 
 Love,
 Susy
+```
+
+## On May 26th,
+```
+Beautiful pictures. Congratulations J and J. God bless you.
+Grandma and Grandpa
+```
+
+## On May 29th,
+```
+WHAT A WONDERFUL WORLD, LOVE YOU J AND J. HAPPY MEMORIAL WEEKEND
+GRANDMA AND GRANDPA
 ```
 
 Thank you for your reponses! They are greatly appreciated. 
