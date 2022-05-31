@@ -4,7 +4,7 @@ title:      "The Engagement Post"
 subtitle:   "J.J. Phelan"
 active: journal
 image:
-  feature: "pc003.JPEG"
+  feature: "pc003.webp"
 date:       2022-05-30
 header-img: "img/postcover/pc003.webp"
 tags: [engagement, May2022]
