@@ -33,10 +33,10 @@ The big addition that I have made to this repo is the addition of an automator t
   5. Select an image compression quality. I highly recommend 80%, the pictures look almost perfect with a decent size reduction. Otherwise, there's either major aliasing or the files are too big for decent loading speed.
   
   6. Hit run. This will do the following:
-    - Copy a compressed version of your IMAGES into ```./gallery/archive/*ArchiveFolderName*```
-    - Copy a compressed version of the thumbnail IMAGE into ```./gallery/albums/```
-    - Create an index.html file within ```./gallery/*WebpageFileName*/``` that includes the necessary yaml links to all of the files copied into the archive folder.
-    - Create the necessary yaml addition within ```./gallery/index.html``` so that the album is viewable from the gallery page.
+  - Copy a compressed version of your IMAGES into ```./gallery/archive/*ArchiveFolderName*```
+  - Copy a compressed version of the thumbnail IMAGE into ```./gallery/albums/```
+  - Create an index.html file within ```./gallery/*WebpageFileName*/``` that includes the necessary yaml links to all of the files copied into the archive folder.
+  - Create the necessary yaml addition within ```./gallery/index.html``` so that the album is viewable from the gallery page.
     
   7. Now, just confirm in those modified files that the changes look right, commit, and push to this repo. Your website will update itself.
   
