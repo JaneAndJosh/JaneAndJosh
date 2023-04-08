@@ -1,3 +1,50 @@
+# A U T O M A T O R for P H O T O R A M A
+![tool](./img/docs/tool.png)
+
+The big addition that I have made to this repo is the addition of an automator tool that will make the process of adding new pictures to the gallery much faster and easier. 
+
+## Directory Structure
+  Relative to the root of this repo, the automator, ```automator.py```, lives here: ```./automator/automator.py```.
+  The tool requires the directory structure of this repo, i.e., there must be a ```./gallery/archive/``` and a ```./gallery/albums/```
+  
+  - The album cover photos live in ```./gallery/albums/```
+  - The photos in a specific album live in ```./gallery/archive/```
+  - Within ```./gallery/``` lives a bunch of individual directories for each album following the naming convention ```gallery-YYMonth-AlbumName```. Inside of those directories lives the index.html file describing that album.
+  
+ 
+ ## What this tool does:
+ ### Quickly and graphically create a new album.
+  1. Use the Add Photos to a New Album tab
+  
+  ![tab1_1](./img/docs/add-to-new-1.png)
+  
+  2. Select a FOLDER in which are the photos you want to add to a new album
+  
+  ![tab1_2](./img/docs/add-to-new-2.png)
+  
+  3. Select a thumbnail IMAGE from that FOLDER
+  
+  ![tab1_3](./img/docs/add-to-new-3.png)
+  
+  4. Fill in all the fields to give you album an archive name, a page name, a city, a country, a date, and a thumbnail caption text. Preferred formatting, according to the, current naming convention of the tool is recommended in each field before you type.
+  
+  ![tab1_4](./img/docs/add-to-new-4.png)
+  
+  5. Select an image compression quality. I highly recommend 80%, the pictures look almost perfect with a decent size reduction. Otherwise, there's either major aliasing or the files are too big for decent loading speed.
+  
+  6. Hit run. This will do the following:
+    - Copy a compressed version of your IMAGES into ```./gallery/archive/*ArchiveFolderName*```
+    - Copy a compressed version of the thumbnail IMAGE into ```./gallery/albums/```
+    - Create an index.html file within ```./gallery/*WebpageFileName*/``` that includes the necessary yaml links to all of the files copied into the archive folder.
+    - Create the necessary yaml addition within ```./gallery/index.html``` so that the album is viewable from the gallery page.
+    
+  7. Now, just confirm in those modified files that the changes look right, commit, and push to this repo. Your website will update itself.
+  
+ ### Quickly and graphically add photos to an existing album.
+  This tool follows the same premise, except it does not create any new files or directories, it just places the compressed versions of the files you want to upload into an existing album for you. 
+
+
+-----------------------------------------------------------
 p h o t o r a m a 
 ====================
 
