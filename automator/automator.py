@@ -5,7 +5,6 @@ Luke's Travel Blog Automator GUI Tool
 #***********************************IMPORT***********************************************
 import os
 import shutil
-import codecs
 from tkinter import *
 from PIL import Image
 #***********************************FUNCTION DEFINITIONS*********************************
@@ -52,7 +51,7 @@ def yaml_insert(abbr, archive_path, gallery_path, files, index, inputs):
                     break
             fin.close()
 
-        with codecs.open(gallery_path + '/index.html', 'w', 'utf-8') as fout:
+        with open(gallery_path + '/index.html', 'w', encoding='utf-8') as fout:
             assembled = '\n'.join(lineArr)
             fout.write(assembled)
             fout.close()
@@ -73,7 +72,7 @@ def yaml_insert(abbr, archive_path, gallery_path, files, index, inputs):
                     break
             fin.close()
 
-        with codecs.open('../gallery/index.html', 'w', 'utf-8') as fout:
+        with open('../gallery/index.html', 'w', encoding='utf-8') as fout:
             assembled = '\n'.join(lineArr)
             fout.write(assembled)
             fout.close()
@@ -96,7 +95,7 @@ def yaml_insert(abbr, archive_path, gallery_path, files, index, inputs):
                     break
             fin.close()
 
-        with codecs.open(gallery_path + '/index.html', 'w', 'utf-8') as fout:
+        with open(gallery_path + '/index.html', 'w', encoding='utf-8') as fout:
             assembled = '\n'.join(lineArr)
             fout.write(assembled)
             fout.close()
