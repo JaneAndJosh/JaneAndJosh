@@ -9,57 +9,97 @@ import codecs
 from tkinter import *
 from PIL import Image
 #***********************************FUNCTION DEFINITIONS*********************************
+
+# Confirm proper directory structure before running anything.
+# If the directory does not exist, notify the user and create it.
+# Here are the directories that need to be checked relative to the script's location:
+# ../gallery/archive/
+# ../gallery/albums/
+def confirm_dir():
+    # Set the current directory to the location of the script:
+    os.chdir(os.path.dirname(os.path.abspath(__file__)))
+    if not os.path.exists('../gallery/archive/'):
+        print('Weird. "../gallery/archive/" does not exist. Please confirm that the directory structure matches the github repo.')
+        #os.mkdir('../gallery/archive/')
+    if not os.path.exists('../gallery/albums/'):
+        print('Weird. "../gallery/albums/" does not exist. Please confirm that the directory structure matches the github repo.')
+        #os.mkdir('../gallery/albums/')
+        
 # Make the yaml insertions to the necessary files
 def yaml_insert(abbr, archive_path, gallery_path, files, index, inputs):
-    lineArr = []
-    with open(gallery_path + '/index.html', "rt")as fin:
-        data = fin.read()
-        lineArr = data.split('\n')
-        instance = 0
-        for i,line in enumerate(lineArr):
-            if line.find("---") != -1 and instance == 0:
-                instance += 1 # Skip past the yaml opening
-            elif line.find("REPLACE__TITLE__") != -1:
-                lineArr[i] = line.replace("REPLACE__TITLE__", inputs['title'])
-            elif line.find("REPLACE__DESCRIP__") != -1:
-                lineArr[i] = line.replace("REPLACE__DESCRIP__", inputs['description'])
-            elif line.find("REPLACE__DATE__") != -1:
-                lineArr[i] = line.replace("REPLACE__DATE__", inputs['date'])
-            elif line.find("---") != -1 and instance == 1:
-                pos = i
-                for j,element in enumerate(files):
-                    lineArr.insert(pos,  " - image_path: " + archive_path + "/" + element)
-                    lineArr.insert(pos+1,"   caption: " + abbr + " " + str(j + int(index)))
-                    lineArr.insert(pos+2,"   copyright: © J.J. Phelan")
-                    pos += 3
-                break
-        fin.close()
+    if(inputs):
+        lineArr = []
+        with open(gallery_path + '/index.html', "rt", encoding='utf-8')as fin:
+            data = fin.read()
+            lineArr = data.split('\n')
+            instance = 0
+            for i,line in enumerate(lineArr):
+                if line.find("---") != -1 and instance == 0:
+                    instance += 1 # Skip past the yaml opening
+                elif line.find("REPLACE__TITLE__") != -1:
+                    lineArr[i] = line.replace("REPLACE__TITLE__", inputs['title'])
+                elif line.find("REPLACE__DESCRIP__") != -1:
+                    lineArr[i] = line.replace("REPLACE__DESCRIP__", inputs['description'])
+                elif line.find("REPLACE__DATE__") != -1:
+                    lineArr[i] = line.replace("REPLACE__DATE__", inputs['date'])
+                elif line.find("---") != -1 and instance == 1:
+                    pos = i
+                    for j,element in enumerate(files):
+                        lineArr.insert(pos,  " - image_path: " + archive_path + "/" + element)
+                        lineArr.insert(pos+1,"   caption: " + abbr + " " + str(j + int(index)))
+                        lineArr.insert(pos+2,"   copyright: © J.J. Phelan")
+                        pos += 3
+                    break
+            fin.close()
 
-    with codecs.open(gallery_path + '/index.html', 'w', 'utf-8') as fout:
-        assembled = '\n'.join(lineArr)
-        fout.write(assembled)
-        fout.close()
+        with codecs.open(gallery_path + '/index.html', 'w', 'utf-8') as fout:
+            assembled = '\n'.join(lineArr)
+            fout.write(assembled)
+            fout.close()
 
-    lineArr = []
-    with open('../gallery/index.html', "rt")as fin:
-        data = fin.read()
-        lineArr = data.split('\n')
+        lineArr = []
+        with open('../gallery/index.html', "rt", encoding='utf-8') as fin:
+            data = fin.read()
+            lineArr = data.split('\n')
 
-        for i,line in enumerate(lineArr):
-            # Insert the images' yaml parts...
-            if line.find("images:") != -1:
-                pos = i + 1
-                lineArr.insert(pos, ' - image_path: /gallery/albums/' + os.path.basename(thumbnailName))
-                lineArr.insert(pos+1, '   gallery-folder: ' + gallery_path[2:] + '/')
-                lineArr.insert(pos+2, '   gallery-name: ' + inputs['thumbnailAbbrv'])
-                lineArr.insert(pos+3, '   gallery-date: '+ inputs['date'])
-                break
-        fin.close()
+            for i,line in enumerate(lineArr):
+                # Insert the images' yaml parts...
+                if line.find("images:") != -1:
+                    pos = i + 1
+                    lineArr.insert(pos, ' - image_path: /gallery/albums/' + os.path.basename(thumbnailName))
+                    lineArr.insert(pos+1, '   gallery-folder: ' + gallery_path[2:] + '/')
+                    lineArr.insert(pos+2, '   gallery-name: ' + inputs['thumbnailAbbrv'])
+                    lineArr.insert(pos+3, '   gallery-date: '+ inputs['date'])
+                    break
+            fin.close()
 
-    with codecs.open('../gallery/index.html', 'w', 'utf-8') as fout:
-        assembled = '\n'.join(lineArr)
-        fout.write(assembled)
-        fout.close()
+        with codecs.open('../gallery/index.html', 'w', 'utf-8') as fout:
+            assembled = '\n'.join(lineArr)
+            fout.write(assembled)
+            fout.close()
+    else:
+        lineArr = []
+        with open(gallery_path + '/index.html', "rt", encoding='utf-8')as fin:
+            data = fin.read()
+            lineArr = data.split('\n')
+            instance = 0
+            for i,line in enumerate(lineArr):
+                if line.find("---") != -1 and instance == 0:
+                    instance += 1 # Skip past the yaml opening
+                elif line.find("---") != -1 and instance == 1:
+                    pos = i
+                    for j,element in enumerate(files):
+                        lineArr.insert(pos,  " - image_path: " + archive_path + "/" + element)
+                        lineArr.insert(pos+1,"   caption: " + abbr + " " + str(j + int(index)))
+                        lineArr.insert(pos+2,"   copyright: © J.J. Phelan")
+                        pos += 3
+                    break
+            fin.close()
+
+        with codecs.open(gallery_path + '/index.html', 'w', 'utf-8') as fout:
+            assembled = '\n'.join(lineArr)
+            fout.write(assembled)
+            fout.close()
 
 # Create the necessary directories
 def create_new(inputs):
@@ -94,7 +134,7 @@ def add_to_new(inputs):
         directory = '../gallery'
         for root, dirs, files in os.walk(directory):
             for folder in dirs:
-                if (gallery_name == folder):
+                if (gallery_name == folder) and inserted == 0:
                     # Make yaml insertion for each file
                     gallery_path = '../gallery/' + folder
                     abbrev = inputs['thumbnailAbbrv']
@@ -107,43 +147,50 @@ def add_to_new(inputs):
             break
     return
 
-def add_to_existing(img_files):
-    # TODO: Update this for the new use case
-    # 1. Add images to the correct gallery folder in /img/...
-    # 2. Add the images to the correct gallery folder in /gallery/archive/...
-    archive_path = ''
-    gallery_path = ''
-    while(1):
-        img_galleries_name = input("\nType the /img/galleries/... folder name.\n\tFORMAT EXAMPLE: '2021-May-Landscapes'\n\t")
-        inserted = 0
-        directory = '../img/galleries'
-        for root, dirs, files in os.walk(directory):
-            for folder in dirs:
-                if (img_galleries_name == folder):
-                    # Copy images over
-                    archive_path = '../gallery/archive/'+folder
-                    for f in img_files:
-                        shutil.copy('pics_to_add/' + f, '../img/galleries/'+folder)
-                        shutil.copy('pics_to_add/' + f, archive_path)
-                    inserted = 1
-        if not inserted:
-            print("Make a valid selection.")
-        else:
-            break
+def get_caption_and_index(indexFile):
+    # Open and loop through the file to find the abbrev (caption) and last image index
+    with open(indexFile, "rt")as fin:
+        data = fin.read()
+        lineArr = data.split('\n')
+        for i,line in enumerate(lineArr):
+            if line.find("caption:") != -1:
+                abbrev = line.split(' ')[-2]
+                index = int(line.split(' ')[-1])
+        fin.close()
+    return abbrev, index
+
+def add_to_existing(inputs):
+    # Grab all the filenames from the selected directory
+    img_files = next(os.walk(inputFolderName2), (None, None, []))[2]  # [] if no file
+
+    # Compress the input images and put them in their correct dest directories
+    for image in img_files:
+        try:
+            img_path = inputFolderName2 + '/' + image
+            img = Image.open(img_path)
+            image_name = image.split('.', 1)[0]
+            img.save(inputs['archiveName'] + '/' + image_name + '.webp', 'webp', optimize=True, quality=inputs['quality'])
+        except:
+            print('Error opening ' + image + ', dropping it from processing')
 
     # 3. Add the yaml additions to the correct index.html in /gallery/gallery-...
     while(1):
-        gallery_name = input("\nType the /gallery/... folder name.\n\tFORMAT EXAMPLE: 'gallery-21May-Landscapes'\n\t")
+        # get the name of the last folder in the path rather than the entire path
+        gallery_name = inputs['galleryName'].split('/', -1)[-1]
+        archive_path = '/gallery/archive/' + inputs['archiveName'].split('/', -1)[-1]
+        
         inserted = 0
+        index = 0
         directory = '../gallery'
+        # Set the current directory to the gallery folder
         for root, dirs, files in os.walk(directory):
             for folder in dirs:
-                if (gallery_name == folder):
+                if (gallery_name == folder) and inserted == 0:
                     # Make yaml insertion for each file
                     gallery_path = '../gallery/' + folder
-                    abbrev = input("\nType the image abbreviation.\n\tFORMAT EXAMPLE: for 'Out West', O.W. \n\t")
-                    index = input("\nType the starting index for the images.\n\t")
-                    yaml_insert(abbrev, archive_path[2:], gallery_path, img_files, index)
+                    [abbrev, index] = get_caption_and_index(gallery_path + '/index.html')
+                    index += 1
+                    yaml_insert(abbrev, archive_path, gallery_path, img_files, index, [])
                     inserted = 1
         if not inserted:
             print("Make a valid selection.")
@@ -317,6 +364,7 @@ def GUI():
                 continue
 
     def run1():
+        confirm_dir()
         disable(main_frame)
         runBtn['text'] = 'Processing...'
 
@@ -335,14 +383,16 @@ def GUI():
         enable(main_frame)
         runBtn['text'] = 'Run'
 
+
     def run2():
+        confirm_dir()
         disable(main_frame2)
         runBtn2['text'] = 'Processing...'
 
         inputs2 = {
             'archiveName': existingArchive, 
             'galleryName': existingGallery, 
-            'quality': scale.get()
+            'quality': scale2.get()
         }
 
         add_to_existing(inputs2)
@@ -404,19 +454,15 @@ def GUI():
     scale.grid(row=0, column=0)
     scale.set(80)
 
-
     # Run button
     runBtn = Button(main_frame, text='Run', activebackground=light_text, bg=select_green, fg='black', command=run1, width=10, state=NORMAL)
     runBtn.grid(row=6, column=0)
 
-
-    #   # Separator
+    ## Separator
     sep = Canvas(main_frame, bg=light_text, height=1, bd=0, highlightthickness=0)
     sep.grid(row=8,column=0, sticky=W+E, pady=5)
 
-
-
-    #   # Status Bar
+    ## Status Bar
     Label(main_frame, text="Developed by Luke Rouleau - 2022", bg=TI_red, fg="white", anchor=W).grid(row=9, column=0, sticky=W+E)
 
     # Tool tips
@@ -453,9 +499,29 @@ def GUI():
     sep = Canvas(main_frame2, bg=light_text, height=1, bd=0, highlightthickness=0)
     sep.grid(row=3,column=0, sticky=W+E, pady=5)
 
+    ## Compression Scale
+    compressionLabelFrame2 = LabelFrame(main_frame2, text='Select Image Quality %', padx=5, pady=5, bg=dark_BG, fg=light_text)
+    compressionLabelFrame2.grid(row=4, column=0, sticky=W)
+    scale2 = Scale(compressionLabelFrame2, from_=0, to=100, orient=HORIZONTAL, bg=dark_BG, fg='white')  #, command=updateScale)
+    scale2.grid(row=0, column=0)
+    scale2.set(80)
+
     # Run Button 2
+    runBtn2 = Button(main_frame2, text='Run', activebackground=light_text, bg=select_green, fg='black', command=run2, width=10, state=NORMAL)
+    runBtn2.grid(row=5, column=0)
 
+    ## Separator
+    sep = Canvas(main_frame2, bg=light_text, height=1, bd=0, highlightthickness=0)
+    sep.grid(row=6,column=0, sticky=W+E, pady=5)
 
+    ## Status Bar
+    Label(main_frame2, text="Developed by Luke Rouleau - 2022", bg=TI_red, fg="white", anchor=W).grid(row=7, column=0, sticky=W+E)
+
+    # Tool tips
+    CreateToolTip(inputDirLabelFrame2, 'Select a folder containing the images you want to add to an existing album.')
+    CreateToolTip(archiveToAddToFrame, 'Select the relevant archive you want to add the images to.')
+    CreateToolTip(galleryToAddToFrame, 'Select the relevant gallery you want to add the images to.')
+    CreateToolTip(compressionLabelFrame2, 'Reducing the quality of your images will decrease their size, making your pages load faster.\n80% Quality is recommended.')
 
     # View 3: Tips & Help
     main_frame3 = Frame(tab3, bg=dark_BG, padx=10, pady=10)
