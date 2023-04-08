@@ -6,6 +6,8 @@ Date:   5/10/2022
 import os
 import shutil
 import codecs
+import PIL
+from PIL import Image
 
 '''
 Insert yaml lines of this format for each image:
@@ -160,6 +162,32 @@ def create_new():
     return (img_galleries_name, gallery_name)
 
 
+def compress_images(images, quality=30):
+    # 1. If there is a directory then change into it, else perform the next operations inside of the 
+    # current working directory:
+    #if directory:
+    #    os.chdir(directory)
+
+    # 2. Extract all of the .png and .jpeg files:
+    #files = os.listdir()
+
+    # 3. Extract all of the images:
+    #images = [file for file in files if file.endswith(('jpg', 'png'))]
+    # I am actually just going to pass in the images because I've already made them into a list
+
+    # 4. Loop over every image:
+    for image in images:
+        print(image)
+
+        # 5. Open every image:
+        # TODO FIX THIS UGLYNESS
+        img = Image.open('pics_to_add/' + image)
+
+        # 5. Compress every image and save it with a new name:
+        image_name = image.split('.', 1)[0]
+        img.save('post_compression/' + image_name + '.webp', 'webp', optimize=True, quality=quality)
+
+
 '''
 1. Iterate through the image files in th pics_to_add directory getting all of thier filenames
 '''
@@ -172,6 +200,12 @@ for root, dirs, files in os.walk(directory):
 # Error check the input:
 if (len(files) == 0):
     exit("No files in the pics_to_add directory")
+
+
+# Compress the images here
+print('Compressing images...')
+compress_images(img_files, 80) # This seems to be the secret sauce right here
+print('Compression finished...')
 
 # Get user input:
 while(1):
